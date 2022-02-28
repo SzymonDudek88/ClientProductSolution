@@ -1,0 +1,22 @@
+
+
+
+
+Folder mappings automapper config
+
+Automapper w Application
+Application-services- client services - implement po iClientService
+
+Podmieniasz na dto w IClientService
+DTO - w application
+
+IClientService - getbyid i getall
+interfaces w application
+
+Implementacja repozytorium w warstwie infrastruktury :
+PostRepository w domain - infrastructure
+
+Interfaces - pod post respository w domain - metody - tutaj tylko interface 
+Common - auditible entity - ta od czasu
+entities - entity
+4 projekty
