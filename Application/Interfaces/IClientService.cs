@@ -14,6 +14,8 @@ namespace Application.Interfaces
 
         ClientDto GetById(int id);
 
+        ClientDto AddNewClient(CreateClientDto newClient); // bo create nie ma id - id se nadamy
+
 
     }
 }

@@ -16,7 +16,9 @@ namespace Application.Mappings
             (
              cfg =>
             {
-                cfg.CreateMap<Client, ClientDto>();
+                cfg.CreateMap<Client, ClientDto>(); // z lewej na prawo -->
+                cfg.CreateMap<CreateClientDto, Client>(); // w ClientService - rzutujesz na klienta z nowego createclientdto - zeby go dodac
+                // do zbioru CLIENTów
             
 
             }

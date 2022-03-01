@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Dto;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -35,6 +36,16 @@ namespace WebApi.Controllers
 
         }
 
+        [HttpPost]
+
+        public IActionResult CreateNewClient(CreateClientDto newClient)
+        {
+            var client =   _clientService.AddNewClient(newClient);
+
+            return Created($"api/posts/{client.Id}", newClient); // jeszcze przesylasz obiekt!
+
+
+        }
 
 
     }

@@ -1,7 +1,8 @@
 
 
 
-
+Tworzymy mape w autpmaperConfig
+Dla create client w IClientService nalezy stworzyc CreateClientDto i podmienic - ( to potem: createClientDto dziedziczy po Imap - bo nadajemy id )
 
 Dependency Injection + ustawienia adnotacji swagera w web api
 Controller w webApi - szablon API controller empty
