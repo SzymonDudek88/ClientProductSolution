@@ -1,13 +1,17 @@
 
-
+zosta³o: controller i DI w startUP
 
 Tworzymy mape w autpmaperConfig
 Dla create client w IClientService nalezy stworzyc CreateClientDto i podmienic - ( to potem: createClientDto dziedziczy po Imap - bo nadajemy id )
+CREATE:
 
 Dependency Injection + ustawienia adnotacji swagera w web api
 Controller w webApi - szablon API controller empty
 
 Dependency injection dla entities oraz automapper w startUp
+
+Dopiero po implementacji w ClientServices potrzebujesz zrobic DI w webApi bo dopiero w Controlerze bedzie 
+to potrzebne
 
 Automaper configuracja + implementacja w metodach client service
 Folder mappings automapper config
@@ -18,13 +22,15 @@ Application-services- client services - implement po iClientService - dependency
 Podmieniasz na dto w IClientService
 DTO - w application
 
+
+
 IClientService - getbyid i getall
 interfaces w application
 
 Implementacja repozytorium w warstwie infrastruktury :
 PostRepository w domain - infrastructure
 
-Interfaces - pod post respository w domain - metody - tutaj tylko interface 
+Interfaces - pod product respository w domain - metody - tutaj tylko interface 
 Common - auditible entity - ta od czasu
 entities - entity
 4 projekty

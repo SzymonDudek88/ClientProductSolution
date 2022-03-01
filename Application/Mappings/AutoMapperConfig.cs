@@ -18,9 +18,12 @@ namespace Application.Mappings
             {
                 cfg.CreateMap<Client, ClientDto>(); // z lewej na prawo -->
                 cfg.CreateMap<CreateClientDto, Client>(); // w ClientService - rzutujesz na klienta z nowego createclientdto - zeby go dodac
-                // do zbioru CLIENTów
-            
+                                                          // do zbioru CLIENTów
 
+                //for products:
+                 cfg.CreateMap<Product, ProductDto>();
+                 cfg.CreateMap< CreateProductDto, Product>(); // to dopiero do create potrzebne
+               // potestuj jak bedziesz mial controller
             }
             ) .CreateMapper();
         

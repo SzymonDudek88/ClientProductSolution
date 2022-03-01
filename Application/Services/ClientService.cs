@@ -5,13 +5,10 @@ using Domain.Entities;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class ClientService : IClientService
+    public class ClientService : IClientService // obsługa repozytorium pod katem dto
     {
         private readonly IClientRepository _clientRepository;
         private readonly IMapper _mapper;
