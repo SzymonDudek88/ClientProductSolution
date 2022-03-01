@@ -1,5 +1,6 @@
 ﻿using Application.Dto;
 using Application.Interfaces;
+using AutoMapper;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,28 +13,24 @@ namespace Application.Services
     public class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
-
+        private readonly IMapper _mapper;
         // DI 
-        public ClientService(IClientRepository clientRepository)
+        public ClientService(IClientRepository clientRepository, IMapper mapper)
         {
             _clientRepository = clientRepository;
+            _mapper = mapper;
         }
         public IEnumerable<ClientDto> GetAll()
         {
-            var posts = _clientRepository.GetAll();
-            return from p in posts
-                   select new ClientDto { Id = p.Id, Name = p.Name, City = p.City };
+            var clients = _clientRepository.GetAll();
+            return _mapper.Map<IEnumerable<ClientDto>>(clients);
         }
 
         public ClientDto GetById(int id)
         {
-             var post = _clientRepository.GetById(id);
-            return new ClientDto {
-                Id = post.Id,
-                Name = post.Name,
-                City = post.City
-
-            };
+             var client = _clientRepository.GetById(id);
+            return  _mapper.Map<ClientDto>(client);
+            
             
         }
     }

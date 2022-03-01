@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class PostRepository : IClientRepository
+    public class ClientRepository : IClientRepository
     {
         private static readonly ISet<Client> _clients = new HashSet<Client>() {
 

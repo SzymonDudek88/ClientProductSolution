@@ -1,3 +1,8 @@
+using Application.Interfaces;
+using Application.Mappings;
+using Application.Services;
+using Domain.Interfaces;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,10 +31,17 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Dependency Injection klas ob³sugiwanych:
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IClientService, ClientService>();
+
+            //DI auto mapper:
+            services.AddSingleton(AutoMapperConfig.Initialize()); // to tez jest DI
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
+                c.EnableAnnotations(); // adnotacje swagger
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
             });
         }
