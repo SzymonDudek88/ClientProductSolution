@@ -1,4 +1,8 @@
 
+
+Dodawanie dowolnego controllera w clasie controller nie jest mozliwe , trzeba najpierw chyba w powiazanym do niego interface stworzyc metode
+bo chyba one sa u góry ze soba powiazane DI
+
 zosta³o: controller i DI w startUP
 
 Tworzymy mape w autpmaperConfig

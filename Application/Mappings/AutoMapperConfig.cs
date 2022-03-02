@@ -21,9 +21,11 @@ namespace Application.Mappings
                                                           // do zbioru CLIENTów
 
                 //for products:
-                 cfg.CreateMap<Product, ProductDto>();
+                 cfg.CreateMap<Product, ProductDto>(); // mapuje sie z lewej do prawej -->
                  cfg.CreateMap< CreateProductDto, Product>(); // to dopiero do create potrzebne
-               // potestuj jak bedziesz mial controller
+                                   // potestuj jak bedziesz mial controller
+
+                cfg.CreateMap<UpdateProductDto, Product>();
             }
             ) .CreateMapper();
         

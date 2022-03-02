@@ -13,6 +13,11 @@ namespace Application.Interfaces
 
         ProductDto GetById(int id);
 
-        ProductDto AddNewClient(CreateProductDto newProduct);
+        ProductDto AddNewProduct(CreateProductDto newProduct);
+
+
+        void UpdateProduct(UpdateProductDto updateProduct);
+
+       int GetQuantity(int id);
     }
 }

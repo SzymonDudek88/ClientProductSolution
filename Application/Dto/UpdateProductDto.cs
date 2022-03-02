@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace Application.Dto
 {
-    public class ProductDto
+    public  class UpdateProductDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
-
         public int Quantity { get; set; }
+
+
+
+
     }
 }
