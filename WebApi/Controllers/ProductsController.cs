@@ -25,7 +25,7 @@ namespace WebApi.Controllers
         }
      
 
-        [HttpGet("Id")]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         { 
             // check if exist?
@@ -61,6 +61,18 @@ namespace WebApi.Controllers
         _productsService.UpdateProduct(updateProduct);
             return NoContent();
         
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+           var product =  _productsService.GetById(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            _productsService.DeleteProduct(id);
+            return NoContent();
         }
 
        

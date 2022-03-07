@@ -37,12 +37,12 @@ namespace Application.Services
             return _mapper.Map<ProductDto>(product);
         }
 
-        public int GetQuantity(int id)
-        {
-            var product = _productsRepository.GetById(id);
-            var mapped = _mapper.Map<ProductDto>(product);
-            return mapped.Quantity;
-        }
+        //public int GetQuantity(int id)
+        //{
+        //    var product = _productsRepository.GetById(id);
+        //    var mapped = _mapper.Map<ProductDto>(product);
+        //    return mapped.Quantity;
+        //}
 
         public ProductDto AddNewProduct(CreateProductDto newProduct)
         {
@@ -65,6 +65,7 @@ namespace Application.Services
 
         public void UpdateProduct(UpdateProductDto updateProduct)// to wchodzi z controllera 
         {
+           
             var existingProduct = _productsRepository.GetById(updateProduct.Id); // PRODUCT
             // uwazam ze chce go zmapowac na dto i dodac existing post do _repository add
             var product = _mapper.Map ( updateProduct, existingProduct);  //PRODUCT = updateproductdto -> product
@@ -73,8 +74,11 @@ namespace Application.Services
              // nic nie zwracasz bo tylko update gmoniu
         }
 
-       
-
-        
+        public void DeleteProduct(int id)
+        {
+            var productToDelete = _productsRepository.GetById(id);
+            _productsRepository.Delete(productToDelete);
+             
+        }
     }
 }

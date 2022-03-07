@@ -48,5 +48,25 @@ namespace Application.Services
             return _mapper.Map<ClientDto>(client); // jakbys dal new client to on nie ma nadanego id a przerobienie go na client typu client
             // nadaje mu ID 
         }
+
+        public void UpdateClient (UpdateClientDto updateClient)
+        {
+            // pobierasz istniejacy client  - mapujesz z update ktory wszedl na nowy product z istniejacego
+            // wykonujesz metode update
+
+            var existingClient = _clientRepository.GetById(updateClient.Id);
+
+            var client = _mapper.Map(updateClient, existingClient); // maping musi byc skonfigurowany wczesniej w config AM
+
+            _clientRepository.Update(client);
+
+
+        }
+
+        public void DeleteClient(int id)
+        {
+            var clientToDelete = _clientRepository.GetById(id);
+            _clientRepository.Delete(clientToDelete);
+        }
     }
 }

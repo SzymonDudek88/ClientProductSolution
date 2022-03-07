@@ -17,7 +17,8 @@ namespace Application.Interfaces
 
 
         void UpdateProduct(UpdateProductDto updateProduct);
+        void DeleteProduct(int id);
 
-       int GetQuantity(int id);
+       // int GetQuantity(int id);
     }
 }

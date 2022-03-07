@@ -19,15 +19,15 @@ namespace WebApi.Controllers
 
         [SwaggerOperation(Summary = "Retrivies all Clients")] //schwackbuckle annotations -> w startup adnotacje wlacz !
         [HttpGet]
-        public IActionResult Get() 
+        public IActionResult Get()
         {
             var clients = _clientService.GetAll();
             return Ok(clients);
-        
+
         }
 
         [HttpGet("{id}")]
-        
+
         public IActionResult GetById(int id)
         {
             var client = _clientService.GetById(id);
@@ -40,11 +40,28 @@ namespace WebApi.Controllers
 
         public IActionResult CreateNewClient(CreateClientDto newClient)
         {
-            var client =   _clientService.AddNewClient(newClient);
+            var client = _clientService.AddNewClient(newClient);
 
-            return Created($"api/posts/{client.Id}", newClient); // jeszcze przesylasz obiekt!
+            return Created($"api/Clients/{client.Id}", newClient); // jeszcze przesylasz obiekt!
+
+        }
 
 
+        [HttpPut]
+        public IActionResult UpdateClient(UpdateClientDto clientUpdated)
+        {
+              _clientService.UpdateClient(clientUpdated);
+            return NoContent();
+
+
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteClient(int id)
+        {
+            _clientService.DeleteClient(id);
+            return NoContent();
+        
         }
 
 

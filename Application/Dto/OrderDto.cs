@@ -1,0 +1,16 @@
+﻿using Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.Dto
+{
+    public class OrderDto
+    {
+        public int Id { get; set; }
+        public Product OrderedProduct { get; set; }
+        public Client OrderingClient { get; set; }
+    }
+}
