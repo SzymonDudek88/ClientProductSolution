@@ -1,5 +1,10 @@
+every thing ok by now but i made som wrong assumptions at the begining. 
+The idea of creating an order is not to transfer full objects as parts
+of order because it is inrational . The solution now is to base orders on 
+int properties of orders quantities and products IDs. Next case is to substract
+quantities of orders from product overall quantity 
 
-
+===========================================  
 Dodawanie dowolnego controllera w clasie controller nie jest mozliwe , trzeba najpierw chyba w powiazanym do niego interface stworzyc metode
 bo chyba one sa u góry ze soba powiazane DI
 

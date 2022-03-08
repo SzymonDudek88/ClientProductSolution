@@ -31,10 +31,17 @@ namespace WebApi.Controllers
 
             var ordersIds = new List<string>();
 
-
-            return Ok(orders);
+            int countOfOrders = 0;
+            foreach (var item in orders)
+            {
+                countOfOrders++;
+            }
+            string answer = "Ilosc zamowien: " + countOfOrders;
+           // return Ok(orders);
+            return Ok(answer);
 
         }
+       
 
         [HttpGet("{idOrder}")] //  ("{idOrder}/{idClient}/{idProduct}")
         public IActionResult GetById(int idOrder) //  int idC, int idP
@@ -50,17 +57,27 @@ namespace WebApi.Controllers
 
                string answer = client.Name.ToString() + " zamówił " + product.Name.ToString() + " w ilości : " + product.Quantity.ToString();
 
-            //  return Ok(answer);
-            return Ok(order);
+              return Ok(answer);
+          //  return Ok(order);
 
         }
 
-        [HttpPost]
-        public IActionResult CreateNewOrder(CreateOrderDto newOrder)
+        [HttpPost( "{idClient}/{idProduct}")]
+        public IActionResult CreateNewOrder(int idClient, int idProduct)
         {
-            var order = _orderService.AddNewOrder(newOrder);
+            //maybe i just want to get clientdto and product dto and then
+            // send it to orderService - there i get back order as OrderDto
+            // to use its ID
+            // 
+            var client = _clientService.GetById(idClient);
+            var product = _productService.GetById(idProduct);
+            // sent them to orderService
 
-            return Created($"api/orders/{order.Id}", newOrder); // jeszcze przesylasz obiekt!
+            var newOrderDto = _orderService.AddNewOrder(product, client ); // adding to repository
+            // and getting ID for use
+           
+
+            return Created($"api/orders/{newOrderDto.Id}", newOrderDto); // jeszcze przesylasz obiekt!
 
         }
     }
