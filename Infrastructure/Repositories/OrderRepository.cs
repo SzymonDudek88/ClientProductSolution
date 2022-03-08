@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    internal class OrderRepository : IOrderRepository
+    public class OrderRepository : IOrderRepository
     {
 
         private static readonly ISet<Order> _orders = new HashSet<Order>()
         {
-         new Order ( 1, new Product(4, "John whiskey", 12, 10) ,   new Client(4, "Sklep A" , "Siemianowice" )),
-         new Order ( 2, new Product(4, "John whiskey", 12, 12) ,   new Client(5, "Sklep B" , "Siemianowice" )),
-         new Order ( 3, new Product(4, "John whiskey", 12, 13) ,   new Client(6, "Sklep C" , "Siemianowice" )),
+         new Order ( 1, new Product(4, "NowyJohn1", 12, 10) ,   new Client(4, "Sklep A" , "Siemianowice" )),
+         new Order ( 2, new Product(4, "NowyJohn2", 12, 12) ,   new Client(5, "Sklep B" , "Siemianowice" )),
+         new Order ( 3, new Product(4, "JNowyJohn3", 12, 13) ,   new Client(6, "Sklep C" , "Siemianowice" )),
           
         };
         public IEnumerable<Order> GetAll()

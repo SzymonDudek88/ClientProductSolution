@@ -39,6 +39,10 @@ namespace WebApi
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
 
+            //orders
+            services.AddScoped<IOrderRepository, OrderRepository>();  
+            services.AddScoped<IOrderService, OrderService>();
+
             //DI auto mapper:
             services.AddSingleton(AutoMapperConfig.Initialize()); // to tez jest DI
 

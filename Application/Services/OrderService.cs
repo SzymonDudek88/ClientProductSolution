@@ -40,25 +40,13 @@ namespace Application.Services
             {
                 throw (new Exception("Client or product cannot be empty"));
             }
+
             var order = _mapper.Map<Order>(newOrder); //get id
 
             _orderRepository.Add(order);
 
             return _mapper.Map<OrderDto>(order);
-            //// dostajesz newProduct o parametrach Name, Price
-            //// check if strings are empty
-            //if (newProduct.Name == null || newProduct.Price == null) // price jest int?
-            //{
-            //    throw (new Exception("Name or price field can not be empty"));
-            //}
-            //// zmapuj new product typu create product dto na product
-            //var product = _mapper.Map<Product>(newProduct); // to mapowanie nadało mu ID
-
-            //// dodaj product do repozytorium
-            //_productsRepository.Add(product);
-
-            //// Zmapuj nowy product na dto
-            //return _mapper.Map<ProductDto>(product);
+             
         }
 
         public void DeleteOrder(int id)

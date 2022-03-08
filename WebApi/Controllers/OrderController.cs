@@ -1,4 +1,5 @@
-﻿using Application.Dto;
+﻿using System.Collections.Generic;
+using Application.Dto;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,36 +11,56 @@ namespace WebApi.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly IOrderService _orderService;
+        private readonly IOrderService _orderService;  // DTOS
+        private readonly IProductService _productService; //DTOS
+        private readonly IClientService _clientService; //DTOS
 
-        public OrderController(IOrderService orderService) // domain -> application - > web api
+        public OrderController(IOrderService orderService, IProductService productService, IClientService clientService ) // domain -> application - > web api
         {
             _orderService = orderService;
+            _clientService = clientService;
+            _productService = productService;
         }
-        [SwaggerOperation(Summary = "Retrivies all orders")] //schwackbuckle annotations -> w startup adnotacje wlacz !
+
+
         [HttpGet]
+
         public IActionResult Get()
         {
             var orders = _orderService.GetAll();
+
+            var ordersIds = new List<string>();
+
+
             return Ok(orders);
 
         }
 
-        [HttpGet("{id}")] 
-        public IActionResult GetById(int id)
+        [HttpGet("{idOrder}")] //  ("{idOrder}/{idClient}/{idProduct}")
+        public IActionResult GetById(int idOrder) //  int idC, int idP
         {
-            var order = _orderService.GetById(id);
+            var order = _orderService.GetById(idOrder);
+
+            var client = order.OrderingClient;
+           var product = order.OrderedProduct; 
+           
+            
+
             if (order == null) return NotFound();
+
+               string answer = client.Name.ToString() + " zamówił " + product.Name.ToString() + " w ilości : " + product.Quantity.ToString();
+
+            //  return Ok(answer);
             return Ok(order);
 
         }
 
-        [HttpPost] 
-        public IActionResult CreateNewClient(CreateOrderDto newOrder)
+        [HttpPost]
+        public IActionResult CreateNewOrder(CreateOrderDto newOrder)
         {
             var order = _orderService.AddNewOrder(newOrder);
 
-            return Created($"api/posts/{order.Id}", newOrder); // jeszcze przesylasz obiekt!
+            return Created($"api/orders/{order.Id}", newOrder); // jeszcze przesylasz obiekt!
 
         }
     }
