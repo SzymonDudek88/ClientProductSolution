@@ -43,41 +43,40 @@ namespace WebApi.Controllers
         }
        
 
-        [HttpGet("{idOrder}")] //  ("{idOrder}/{idClient}/{idProduct}")
+        [HttpGet("{idOrder}")]  
         public IActionResult GetById(int idOrder) //  int idC, int idP
         {
             var order = _orderService.GetById(idOrder);
 
-            var client = order.OrderingClient;
-           var product = order.OrderedProduct; 
+            var client = _clientService.GetById( order.ClientId );
+           var product = _productService.GetById( order.ProductId );
+           var quantity = order.OrderQuantity; 
            
             
 
             if (order == null) return NotFound();
 
-               string answer = client.Name.ToString() + " zamówił " + product.Name.ToString() + " w ilości : " + product.Quantity.ToString();
+               string answer = client.Name.ToString() + " zamówił " + product.Name.ToString() + " w ilości : " + quantity;
 
               return Ok(answer);
           //  return Ok(order);
 
         }
 
-        [HttpPost( "{idClient}/{idProduct}")]
-        public IActionResult CreateNewOrder(int idClient, int idProduct)
+        [HttpPost( "{clientId}/{productId}/{quantity}")]
+        public IActionResult CreateNewOrder(int clientId, int productId, int quantity)
         {
-            //maybe i just want to get clientdto and product dto and then
-            // send it to orderService - there i get back order as OrderDto
-            // to use its ID
-            // 
-            var client = _clientService.GetById(idClient);
-            var product = _productService.GetById(idProduct);
-            // sent them to orderService
+            var createOrderDto = new CreateOrderDto();
+            createOrderDto.ClientId = clientId;
+            createOrderDto.ProductId = productId;
+            createOrderDto.OrderQuantity = quantity;
 
-            var newOrderDto = _orderService.AddNewOrder(product, client ); // adding to repository
+
+            var newOrderDto = _orderService.AddNewOrder(createOrderDto); // adding to repository
             // and getting ID for use
            
 
-            return Created($"api/orders/{newOrderDto.Id}", newOrderDto); // jeszcze przesylasz obiekt!
+            return Created($"api/orders/{newOrderDto.Id}", createOrderDto); // jeszcze przesylasz obiekt!
 
         }
     }

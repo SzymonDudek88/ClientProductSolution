@@ -34,32 +34,20 @@ namespace Application.Services
             var order = _orderRepository.GetById(id);
             return _mapper.Map<OrderDto>(order);
         }
-        public OrderDto AddNewOrder( ProductDto product, ClientDto client)
-        { //maybe i should not transfer objects but only IDs
-            if (product == null || client == null) // price jest int?
+        public OrderDto AddNewOrder(CreateOrderDto createOrderDto)
+        { 
+            if (createOrderDto == null) 
             {
-                throw (new Exception("Client or product cannot be empty"));
+                throw (new Exception("Enter values"));
             }
+             
+            var order = _mapper.Map<Order>(createOrderDto); // error constructor
 
-            var productMapped = _mapper.Map<Product>(product);
-            var clientMapped = _mapper.Map<Client>(client);
-
-         // /  [External Code]
-         //   Application.Services.OrderService.AddNewOrder(Application.Dto.ProductDto, Application.Dto.ClientDto) in OrderService.cs
-  //  WebApi.Controllers.OrderController.CreateNewOrder(int, int) in OrderController.cs
-  ///  [External Code]
-            var newOrder = new CreateOrderDto( );
-            newOrder.OrderedProduct = productMapped;
-            newOrder.OrderingClient = clientMapped;
-
-            var order = new Order(4, productMapped, clientMapped);
-
-            // you simply have to solve this here, because you dont have connections to other dastabases deeper
-          //  var order = _mapper.Map<Order>(newOrder); //get id
-            // just trying to transfer wrong type DTOsObjects not directObjects
+            
             _orderRepository.Add(order);
 
-            return _mapper.Map<OrderDto>(order); // gives id  to otderDto
+            return _mapper.Map<OrderDto>(order);
+          
              
         }
 

@@ -10,7 +10,9 @@ namespace Application.Dto
     public class OrderDto
     {
         public int Id { get; set; }
-        public Product OrderedProduct { get; set; }
-        public Client OrderingClient { get; set; }
+        public int ProductId { get; set; }
+        public int ClientId { get; set; }
+
+        public int OrderQuantity { get; set; }
     }
 }

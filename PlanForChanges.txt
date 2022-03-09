@@ -1,0 +1,6 @@
+Order - Id ID quanbtity
+
+Repository 
+
+where to sarvice quantity substract 
+

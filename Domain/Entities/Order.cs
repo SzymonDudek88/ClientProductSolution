@@ -10,13 +10,20 @@ namespace Domain.Entities
     public  class Order : AuditibleEntity
     {
         public int Id { get; set; }
-        public Product OrderedProduct { get; set; }
-        public Client OrderingClient { get; set; }
-        public Order( int id , Product product, Client client)
+        public int ProductId { get; set; }
+        public int ClientId { get; set; }
+
+        public int OrderQuantity { get; set; }
+        public Order( int id , int productId, int clientId, int orderQuantity  )
         {
             Id = id;
-            OrderedProduct = product;
-            OrderingClient = client;
+            ProductId = productId;
+            ClientId = clientId;
+            OrderQuantity = orderQuantity;
+        }
+        public Order()
+        {
+
         }
     }
 }
