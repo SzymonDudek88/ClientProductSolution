@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Mappings;
+using AutoMapper;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,15 @@ using System.Threading.Tasks;
 
 namespace Application.Dto
 {
-    public class UpdateClientDto
+    public  class UpdateProductQuantityDto : IMap
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string City { get; set; }
+ 
+        public int Quantity { get; set; }
+
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CreateClientDto, Client>();
+           profile.CreateMap<CreateProductDto, Product>();
         }
     }
 }

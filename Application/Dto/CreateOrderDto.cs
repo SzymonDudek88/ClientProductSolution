@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using AutoMapper;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,10 @@ namespace Application.Dto
 
         public int OrderQuantity { get; set; }
 
-        //public CreateOrderDto(ProductDto product, ClientDto client)
-        //{
-        //   OrderedProduct = product;
-        //   OrderingClient = client;
-        //}
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<CreateOrderDto, Order>();
+        }
+        
     }
 }

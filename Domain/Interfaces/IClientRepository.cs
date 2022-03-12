@@ -13,6 +13,7 @@ namespace Domain.Interfaces
 
         void Update(Client client);
         void Delete(Client client);
+        void DeleteAllClients();
 
     }
 }

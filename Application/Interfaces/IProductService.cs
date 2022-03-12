@@ -9,7 +9,7 @@ namespace Application.Interfaces
 {
     public interface IProductService
     {
-        IEnumerable<ProductDto> GetAll();
+       Task < IEnumerable<ProductDto>> GetAllAsync();
 
         ProductDto GetById(int id);
 
@@ -19,6 +19,6 @@ namespace Application.Interfaces
         void UpdateProduct(UpdateProductDto updateProduct);
         void DeleteProduct(int id);
 
-       // int GetQuantity(int id);
+        void UpdateProductQuantity(int id, int quantity);
     }
 }

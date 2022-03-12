@@ -35,9 +35,17 @@ namespace WebApi.Controllers
             return Ok(client);
 
         }
+       //// The idea is to generate OData adress to find  smth using this string 
+       ///
+       // [SwaggerOperation(Summary = "Retrivies OData string to find client by name")]
+       // [HttpGet("Search/{city}")] 
+       // public IActionResult GetClientByCity(string city)
+       //  {
+       // return Accepted($"api/Clients/getall/filter=Contains({city})");
+       //  }
 
-        [HttpPost]
 
+    [HttpPost] 
         public IActionResult CreateNewClient(CreateClientDto newClient)
         {
             var client = _clientService.AddNewClient(newClient);
@@ -59,11 +67,27 @@ namespace WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteClient(int id)
         {
+          var isExist =   _clientService.GetById(id);
+
+            if (isExist == null)
+            {
+                return NotFound();
+            }
+
             _clientService.DeleteClient(id);
+             
             return NoContent();
         
         }
+        [SwaggerOperation(Summary = "Delete all clients  ")]
+        [HttpDelete()]
+        public IActionResult DeleteAllClients()
+        {
+             _clientService.DeleteAllClients();
 
+            return NoContent();
+
+        }
 
     }
 }

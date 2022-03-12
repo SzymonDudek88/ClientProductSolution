@@ -66,7 +66,13 @@ namespace Application.Services
         public void DeleteClient(int id)
         {
             var clientToDelete = _clientRepository.GetById(id);
+            
             _clientRepository.Delete(clientToDelete);
+        }
+
+        public void DeleteAllClients()
+        {
+            _clientRepository.DeleteAllClients();
         }
     }
 }

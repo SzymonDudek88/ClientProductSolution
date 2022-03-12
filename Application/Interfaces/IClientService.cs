@@ -18,5 +18,6 @@ namespace Application.Interfaces
 
         void UpdateClient(UpdateClientDto updateClient);
         void DeleteClient(int id);
+        void DeleteAllClients();
     }
 }

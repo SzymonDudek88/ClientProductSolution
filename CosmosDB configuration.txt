@@ -1,0 +1,18 @@
+Entity need to have only strings - id is string 
+
+nuget pckg Cosmonaut
+
+Settings in  [CosmosCollection("clients")]
+             public  class CosmosClient 
+             [CosmosPartitionKey]
+              [JsonProperty]
+
+Makin conflicts - > Humanizer . core to web api and Infrastructure - makin problems with versions 
+
+interface
+
+repozytorium -> ctor with IcosmosStore enter to DI - let get and change data from dastabase
+ public CosmosClientRepository(ICosmosStore<CosmosClient> clientRepository)
+
+ in repository methods are using cosmonaut not EFW -   var posts = await _cosmosStore.Query().ToListAsync();
+

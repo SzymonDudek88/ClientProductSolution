@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,47 +9,55 @@ namespace Infrastructure.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        private static readonly ISet<Client> _clients = new HashSet<Client>() {
-
-        new Client ( 1, "john", "Vietnam"),
-        new Client ( 2, "john2", "Viet3nam"),
-        new Client ( 3, "john2", "Viet3nam")
-       
-        
-        
-        };
+        private readonly OrdersContext _context;
+        public ClientRepository(OrdersContext context)
+        {
+            _context = context;
+        }
+        //private static readonly ISet<Client> _clients = new HashSet<Client>() { 
+        //new Client ( 1, "john", "Vietnam"),
+        //new Client ( 2, "john2", "Viet3nam"),
+        //new Client ( 3, "john2", "Viet3nam") 
+        //};
     
         public IEnumerable<Client> GetAll()
         {
-            return _clients;
+            return _context.Clients;
         }
 
         public Client GetById(int id)
         {
-           return _clients.SingleOrDefault(c => c.Id == id);
+           return _context.Clients.SingleOrDefault(c => c.Id == id);
         }
         public Client Add(Client client)
         {
-            client.Id = _clients.Count + 1;
             client.Created = DateTime.UtcNow;
-            _clients.Add(client);
+            _context.Clients.Add(client);
+            _context.SaveChanges();
             return client;
         }
         public void Update(Client client)
         {
-            // poki co nic 
-            client.LastModified = DateTime.UtcNow;
+            _context.Clients.Update(client);
+            _context.SaveChanges();  
+          
 
         }
         public void Delete(Client client)
         {
-            _clients.Remove(client);
+            _context.Clients.Remove(client);
+            _context.SaveChanges() ;
         }
 
-    
+        public void DeleteAllClients()
+        {
+            foreach (var client in _context.Clients)
+            {
+                _context.Clients.Remove(client);
 
-        
+            }
+            _context.SaveChanges();
 
-       
+        }
     }
 }

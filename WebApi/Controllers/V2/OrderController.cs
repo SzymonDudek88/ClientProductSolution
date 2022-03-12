@@ -5,8 +5,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace WebApi.Controllers
+namespace WebApi.Controllers.V2
 {
+
+
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [ApiVersion("2.0")]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -36,9 +40,9 @@ namespace WebApi.Controllers
             {
                 countOfOrders++;
             }
-            string answer = "Ilosc zamowien: " + countOfOrders;
+            string answer = "Ilosc zamowien: " + countOfOrders + " version 2 text";
            // return Ok(orders);
-            return Ok(answer);
+            return Ok(orders);
 
         }
        

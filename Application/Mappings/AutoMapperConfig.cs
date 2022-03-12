@@ -11,6 +11,10 @@ namespace Application.Mappings
 {
     public static class AutoMapperConfig
     {
+        // minusy rozwiazania mapowania po staremu : za każdym razem kiedy dodajemy nowy obiekt dto
+        // i chcemy mapowac to trzeba pamietac aby tu dodac mapowanie
+        // z poziomu dto nie widac jak sie mapują
+        // przenosimy mapowanie bezposrednio do dto
         public static IMapper Initialize() 
             => new MapperConfiguration
             (
@@ -32,6 +36,7 @@ namespace Application.Mappings
                 cfg.CreateMap<CreateOrderDto, Order>();
 
                 cfg.CreateMap<UpdateProductDto, Product>();
+                cfg.CreateMap<UpdateProductQuantityDto, Product>();
                 cfg.CreateMap<UpdateClientDto, Client>();
             }
             ) .CreateMapper();

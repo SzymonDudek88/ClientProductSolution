@@ -24,9 +24,9 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<ProductDto> GetAll()
+        public async Task < IEnumerable<ProductDto>> GetAllAsync()
         {
-            var products = _productsRepository.GetAll(); // pobierasz jako typ Product
+            var products = await _productsRepository.GetAllAsync(); // pobierasz jako typ Product
             return _mapper.Map<IEnumerable<ProductDto>>(products); // zamieniasz na dto i wracasz 
             // i tego jeszcze nie dotyczy automapper config...
         }
@@ -79,6 +79,27 @@ namespace Application.Services
             var productToDelete = _productsRepository.GetById(id);
             _productsRepository.Delete(productToDelete);
              
+        }
+
+        public void UpdateProductQuantity(int id, int quantity)
+        {
+
+            ///
+            //var updateQProduct = new UpdateProductQuantityDto();
+            //updateQProduct.Quantity = quantity;
+            //updateQProduct.Id = id;
+
+            ///
+            var existingProduct = _productsRepository.GetById(id); // PRODUCT
+
+            existingProduct.Quantity -= quantity;
+
+           // var product = _mapper.Map(updateQProduct, existingProduct);
+
+
+
+            _productsRepository.Update(existingProduct);  // send to repository
+
         }
     }
 }

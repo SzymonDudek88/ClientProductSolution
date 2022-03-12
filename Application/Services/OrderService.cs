@@ -57,6 +57,8 @@ namespace Application.Services
             _orderRepository.Delete(orderToDelete);
         }
 
-     
+        //var post = await _postRepository.GetByIdAsync(id);
+        //await _postRepository.DeleteAsync(post);
+
     }
 }

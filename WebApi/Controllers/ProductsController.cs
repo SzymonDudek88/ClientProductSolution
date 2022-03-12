@@ -2,11 +2,13 @@
 using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    
     [ApiController]
+    [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productsService;
@@ -17,10 +19,10 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task <IActionResult> GetAllAsync()
         {
             //
-            var products = _productsService.GetAll(); 
+            var products = await _productsService.GetAllAsync(); 
             return Ok(products);
         }
      
@@ -59,9 +61,10 @@ namespace WebApi.Controllers
         public IActionResult Update(UpdateProductDto updateProduct)
         { 
         _productsService.UpdateProduct(updateProduct);
-            return NoContent();
+         return NoContent();
         
         }
+      
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
@@ -75,6 +78,21 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
-       
+        [HttpPut("{id}/{quantity}")]//"{id}/{quantity}"
+        public IActionResult UpdateQuantity(int id, int quantity)
+        {
+            //var updateQproduct = new UpdateProductQuantityDto();
+            //updateQproduct.Quantity = quantity;
+            //updateQproduct.Id = id;
+
+            _productsService.UpdateProductQuantity(id, quantity);
+            return NoContent( ); 
+
+        }
+        //SwaggerGeneratorException: Conflicting method/path combination "PUT api/Products" for actions
+        //- WebApi.Controllers.ProductsController.Update (WebApi),WebApi.Controllers.ProductsController.UpdateQuantity
+        //(WebApi).
+        //Actions require a unique method/path combination for Swagger/OpenAPI 3.0.
+        //Use ConflictingActionsResolver as a workaround
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +12,10 @@ namespace Application.Dto
     {
         public string Name { get; set; }
         public string City { get; set; }
-        
 
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<CreateClientDto, Client>();
+        }
     }
 }
