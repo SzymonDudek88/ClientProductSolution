@@ -18,8 +18,8 @@ namespace WebApi.Installers
 
             // everything transfered here L7 - Dependency injection and services registration
             //Dependency Injection klas obłsugiwanych: Client
-            //  services.AddScoped<IClientRepository, ClientRepository>();// transfered to Infrastructure DI
-            //  services.AddScoped<IClientService, ClientService>(); // transfered to DI in application 
+          // services.AddScoped<IClientRepository, ClientRepository>();// transfered to Infrastructure DI
+           //  services.AddScoped<IClientService, ClientService>(); // transfered to DI in application 
 
             // Product
             //   services.AddScoped<IProductRepository, ProductRepository>();// transfered to Infrastructure DI
@@ -34,7 +34,10 @@ namespace WebApi.Installers
 
             services.AddApplication();
             services.AddInfrastructure();
-            services.AddControllers();
+           // services.AddControllers(); // to bylo przed cosmos
+
+            services.AddControllers().AddNewtonsoftJson(options =>  // to niezbedo do cosmos
+               options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             // versioning
             services.AddApiVersioning(x =>

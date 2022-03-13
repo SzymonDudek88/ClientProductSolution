@@ -21,7 +21,7 @@ namespace Infrastructure.Data
 
         public DbSet<Order> Orders { get; set; } // co mapujemy na tabele i bazy danych 
         public DbSet<Product> Products { get; set; } // co mapujemy na tabele i bazy danych 
-        public DbSet<Client> Clients { get; set; } // co mapujemy na tabele i bazy danych 
+       // public DbSet<Client> Clients { get; set; } // co mapujemy na tabele i bazy danych !!!!! tu uwasga 
 
         // potem nalezy zadeklarowac connection string w web api w appsetings json
 

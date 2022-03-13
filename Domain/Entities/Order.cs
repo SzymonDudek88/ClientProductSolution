@@ -19,11 +19,11 @@ namespace Domain.Entities
         public int ProductId { get; set; }
 
         [Required]
-        public int ClientId { get; set; }
+        public string ClientId { get; set; }
 
         [Required]
         public int OrderQuantity { get; set; }
-        public Order( int id , int productId, int clientId, int orderQuantity  )
+        public Order( int id , int productId, string clientId, int orderQuantity  )
         {
             Id = id;
             ProductId = productId;

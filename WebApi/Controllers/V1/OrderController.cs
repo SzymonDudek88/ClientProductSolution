@@ -4,6 +4,7 @@ using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Application.Dto.Cosmos;
 
 namespace WebApi.Controllers.V1
 { //added nuget package mvc versioning L9 S3
@@ -16,9 +17,9 @@ namespace WebApi.Controllers.V1
     {
         private readonly IOrderService _orderService;  // DTOS
         private readonly IProductService _productService; //DTOS
-        private readonly IClientService _clientService; //DTOS
+        private readonly ICosmosClientService _clientService; //DTOS
 
-        public OrderController(IOrderService orderService, IProductService productService, IClientService clientService ) // domain -> application - > web api
+        public OrderController(IOrderService orderService, IProductService productService, ICosmosClientService clientService ) // domain -> application - > web api
         {
             _orderService = orderService;
             _clientService = clientService;
@@ -51,7 +52,7 @@ namespace WebApi.Controllers.V1
         {
             var order = _orderService.GetById(idOrder);
 
-            var client = _clientService.GetById( order.ClientId );
+            var client = _clientService.GetByIdAsync( order.ClientId.ToString() );
            var product = _productService.GetById( order.ProductId );
            var quantity = order.OrderQuantity;
 
@@ -62,7 +63,7 @@ namespace WebApi.Controllers.V1
 
             if (order == null) return NotFound();
 
-               string answer = client.Name.ToString() + " zamówił " + product.Name.ToString() + " w ilości : " + quantity;
+               string answer = client.Result.Name  + " zamówił " + product.Name.ToString() + " w ilości : " + quantity;
 
               return Ok(answer);
           //  return Ok(order);
@@ -70,14 +71,14 @@ namespace WebApi.Controllers.V1
         }
 
         [HttpPost( "{clientId}/{productId}/{quantity}")]
-        public IActionResult CreateNewOrder(int clientId, int productId, int quantity)
+        public IActionResult CreateNewOrder(string clientId, int productId, int quantity)
         {
             var createOrderDto = new CreateOrderDto();
             createOrderDto.ClientId = clientId;
             createOrderDto.ProductId = productId;
             createOrderDto.OrderQuantity = quantity;
 
-            var client = _clientService.GetById(clientId);
+            var client = _clientService.GetByIdAsync(clientId.ToString());
             var product = _productService.GetById(productId);
 
             // check if client prouct exist
@@ -100,7 +101,7 @@ namespace WebApi.Controllers.V1
             // and getting ID for use
            
 
-            return Created($"api/orders/{newOrderDto.Id} ", $"Client: {client.Name} Ordered: {product.Name} Amount: {newOrderDto.OrderQuantity}  Product amount left: {product.Quantity}"); 
+            return Created($"api/orders/{newOrderDto.Id} ", $"Client: {client.Result.Name} Ordered: {product.Name} Amount: {newOrderDto.OrderQuantity}  Product amount left: {product.Quantity}"); 
 
         }
     }

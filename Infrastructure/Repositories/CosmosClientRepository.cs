@@ -11,44 +11,48 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class CosmosClientRepository  // ICosmosClientRepository
+    public class CosmosClientRepository : ICosmosClientRepository
     {
-     //   private readonly ICosmosStore<CosmosClient> _cosmosStore;
+        private readonly ICosmosStore<CosmosClient> _cosmosStore;
 
-     //   public CosmosClientRepository(ICosmosStore<CosmosClient> cosmosStore)
-     //   {
-     //       _cosmosStore = cosmosStore;
-     //   }
-     //   public async Task< IEnumerable<CosmosClient>> GetAll()
-     //   {
-     //       var posts = await _cosmosStore.Query().ToListAsync();
-     //       return posts;
-     //   }
+        public CosmosClientRepository(ICosmosStore<CosmosClient> cosmosStore)
+        {
+            _cosmosStore = cosmosStore;
+        }
 
-     // //  public CosmosClient GetById(int id)
-     //   {
-     //   //    var post = _cosmosStore.FindAsync(id);
-     //   }
+        public async Task<IEnumerable<CosmosClient>> GetAll()
+        {
+            var clients = await _cosmosStore.Query().ToListAsync();
+            return clients;
+        }
 
-     ////   public void Update(CosmosClient client)
-     //   {
-     //       throw new NotImplementedException();
-     //   }
-     // //  public Client Add(CosmosClient client)
-     //   {
-     //       throw new NotImplementedException();
-     //   }
+        public async Task<CosmosClient> GetById(string id)
+        {
+           var client = await _cosmosStore.FindAsync(id);
+            return client;
+        }
 
-     //   public void Delete(CosmosClient client)
-     //   {
-     //       throw new NotImplementedException();
-     //   }
+        public async Task<CosmosClient> Add(CosmosClient client)
+        {
+            client.Id = Guid.NewGuid().ToString();
+           var newClient =  await _cosmosStore.AddAsync(client); 
+            return newClient;
+           //  return await _cosmosStore.AddAsync(client) ;  // if problems use this 
+        }
+        public async Task Update(CosmosClient client)
+        {
+           await _cosmosStore.UpdateAsync(client); // "z interfejsu"
+        }
 
-     //   public void DeleteAllClients()
-     //   {
-     //       throw new NotImplementedException();
-     //   }
+        public async Task Delete(CosmosClient client)
+        {
+           await _cosmosStore.RemoveAsync(client);
+        }
 
-      
+        public async Task DeleteAllClients()
+        {
+            await _cosmosStore.RemoveRangeAsync(_cosmosStore.Query().ToList() );  // brdzo ciekaw jstm
+        } 
+       
     }
 }

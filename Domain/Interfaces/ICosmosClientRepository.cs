@@ -11,12 +11,12 @@ namespace Domain.Interfaces
     public interface ICosmosClientRepository
     {
        Task< IEnumerable<CosmosClient>> GetAll();
-        CosmosClient GetById(int id);
+       Task <CosmosClient> GetById(string id);
 
-        Client Add(CosmosClient client);
+        Task <CosmosClient> Add(CosmosClient client);
 
-        void Update(CosmosClient client);
-        void Delete(CosmosClient client);
-        void DeleteAllClients();
+        Task Update(CosmosClient client);
+        Task Delete(CosmosClient client);
+        Task DeleteAllClients();
     }
 }

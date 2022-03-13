@@ -12,7 +12,7 @@ namespace Application.Dto
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
-        public int ClientId { get; set; }
+        public string ClientId { get; set; } // zmieniono
 
         public int OrderQuantity { get; set; }
 
