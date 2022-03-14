@@ -16,15 +16,10 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
-        //private static readonly ISet<Product> _products = new HashSet<Product>()
-        //{
-        // new Product ( 1, "john walker", 100 , 2),
-        // new Product ( 2, "john bim", 120 , 24),
-        // new Product ( 3, "jim walker", 110 , 25), 
-        //};
-        public async Task< IEnumerable<Product>> GetAllAsync()
+      
+        public async Task< IEnumerable<Product>> GetAllAsync(int pageNumber, int pageSize)
         {
-            return await _context.Products.ToListAsync(); // EFC part
+            return await _context.Products.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToListAsync(); // EFC part
         }
 
         public Product GetById(int id)
@@ -48,6 +43,12 @@ namespace Infrastructure.Repositories
         {
             _context.Products.Remove(product);
             _context.SaveChanges();
+        }
+
+        public async Task<int> GetAllCountAsync()
+        {
+           var count = await  _context.Products.CountAsync();
+            return   count;
         }
 
         //public void UpdateProductQuantity(int id, int quantity)  // no need to use that, quantity is changed in

@@ -9,7 +9,8 @@ namespace Application.Interfaces
 {
     public interface IProductService
     {
-       Task < IEnumerable<ProductDto>> GetAllAsync();
+       Task < IEnumerable<ProductDto>> GetAllAsync(int pageNumber, int pageSize);
+       Task <int> GetAllClientsAsync( );
 
         ProductDto GetById(int id);
 

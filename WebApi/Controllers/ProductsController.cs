@@ -2,7 +2,13 @@
 using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using WebApi.Filters;
+using WebApi.Helpers;
+using WebApi.Wrappers;
 
 namespace WebApi.Controllers
 {
@@ -18,12 +24,15 @@ namespace WebApi.Controllers
             _productsService = products;
         }
 
-        [HttpGet]
-        public async Task <IActionResult> GetAllAsync()
+        [HttpGet]  //                               from querry - zostanie pobrana z ciagu zapytania 
+        public async Task <IActionResult> GetAllAsync([FromQuery]PaginationFilter filter) //pagination filter - tylko filtruje dane
         {
+            var validPaginationFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
             //
-            var products = await _productsService.GetAllAsync(); 
-            return Ok(products);
+            var products = await _productsService.GetAllAsync( validPaginationFilter.PageNumber, validPaginationFilter.PageSize);
+            var totalRecords = await _productsService.GetAllClientsAsync();
+            
+            return Ok(  PaginationHelper.CreatePagedResponse(products, validPaginationFilter,totalRecords)); //pagination int pageNumber, int pageSize
         }
      
 
@@ -33,7 +42,7 @@ namespace WebApi.Controllers
             // check if exist?
             var product = _productsService.GetById(id);
             if (product == null) return NotFound();
-            return Ok(product);
+            return Ok(new Response<ProductDto> (product));
         }
 
         //[HttpGet("Id")]
@@ -53,7 +62,7 @@ namespace WebApi.Controllers
        
            // return Ok(product);
 
-            return Created($"api/posts/{product.Id}", newProduct); // widac nie chcesz pokazac jego id bo w sumie po co to po masz dto
+            return Created($"api/posts/{product.Id}", new Response<ProductDto>( product)); // widac nie chcesz pokazac jego id bo w sumie po co to po masz dto
 
         }
 
