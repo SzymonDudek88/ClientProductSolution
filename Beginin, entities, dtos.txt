@@ -45,4 +45,8 @@ PostRepository w domain - infrastructure
 Interfaces - pod product respository w domain - metody - tutaj tylko interface 
 Common - auditible entity - ta od czasu
 entities - entity
-4 projekty
+4 projekty:
+
+aplication add reference to domain
+Infrastructure add reference to application
+webapi add reference to application i infrastructure
