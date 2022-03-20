@@ -25,28 +25,33 @@ Dependency injection dla entities oraz automapper w startUp
 Dopiero po implementacji w ClientServices potrzebujesz zrobic DI w webApi bo dopiero w Controlerze bedzie 
 to potrzebne
 
+--------- EntityFramework
+
 Automaper configuracja + implementacja w metodach client service
 Folder mappings automapper config
 
-Automapper w Application
-Application-services- client services - implement po iClientService - dependency injection
+Folder mapping - application - AutoMapperConfig, Imap , MappingProfile
 
-Podmieniasz na dto w IClientService
-DTO - w application
+Folder services - Application -  client services - implement po iClientService - dependency injection
 
+Dtos used in IClientService
 
+Folder DTOs -  application
 
-IClientService - getbyid i getall
-interfaces w application
+IClientService - application -  getbyid i getall
 
-Implementacja repozytorium w warstwie infrastruktury :
-PostRepository w domain - infrastructure
+Folder Interfaces -  application - IEntityService
 
-Interfaces - pod product respository w domain - metody - tutaj tylko interface 
-Common - auditible entity - ta od czasu
-entities - entity
-4 projekty:
+Implementacja repozytorium w warstwie infrastruktury : 
 
+PostRepository   - infrastructure - Repositories 
+
+Interfaces of repositories - domain  - p IEntityRepository w domain   - tutaj tylko interface 
+
+Folder Common -  Domain  - auditible entity - ta od czasu
+entities - Domain - entity
+
+4 projekty references:
 aplication add reference to domain
 Infrastructure add reference to application
 webapi add reference to application i infrastructure
