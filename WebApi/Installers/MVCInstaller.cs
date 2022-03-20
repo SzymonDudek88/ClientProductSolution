@@ -48,6 +48,8 @@ namespace WebApi.Installers
 
 
             });
+
+            services.AddAuthentication(); // tu i w startup
         }
     }
 }

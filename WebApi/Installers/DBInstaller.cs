@@ -9,7 +9,7 @@ namespace WebApi.Installers
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<OrdersContext>(options =>
+            services.AddDbContext<CPSContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("CPOrders"))
             );  // klasa kontekstu 
         }

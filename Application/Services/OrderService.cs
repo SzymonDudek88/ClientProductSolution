@@ -34,7 +34,7 @@ namespace Application.Services
             var order = _orderRepository.GetById(id);
             return _mapper.Map<OrderDto>(order);
         }
-        public OrderDto AddNewOrder(CreateOrderDto createOrderDto)
+        public OrderDto AddNewOrder(CreateOrderDto createOrderDto, string userId)
         { 
             if (createOrderDto == null) 
             {
@@ -42,7 +42,7 @@ namespace Application.Services
             }
              
             var order = _mapper.Map<Order>(createOrderDto); // error constructor
-
+            order.UserId = userId;
             
             _orderRepository.Add(order);
 
@@ -57,8 +57,22 @@ namespace Application.Services
             _orderRepository.Delete(orderToDelete);
         }
 
-        //var post = await _postRepository.GetByIdAsync(id);
-        //await _postRepository.DeleteAsync(post);
+        public bool  UserOwnOrder(int orderId, string userId)
+        {
+            var order =   _orderRepository.GetById(orderId);
+
+            if (order == null)
+            {
+                return false;
+            }
+            if (userId != order.UserId)
+            {
+                return false;
+            }
+            return true;
+        }
+
+         
 
     }
 }

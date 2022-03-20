@@ -34,6 +34,7 @@ namespace Application //serwisy tej warstwy
 
             //DI auto mapper:
             services.AddSingleton(AutoMapperConfig.Initialize()); // to tez jest DI
+          //  services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             return services;
 

@@ -1,11 +1,6 @@
 ﻿using Domain.Common;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
@@ -23,6 +18,10 @@ namespace Domain.Entities
 
         [Required]
         public int OrderQuantity { get; set; }
+
+        [Required]
+        [MaxLength(450)]
+        public string UserId { get; set; }  // using for check authentication who can menage order
         public Order( int id , int productId, string clientId, int orderQuantity  )
         {
             Id = id;

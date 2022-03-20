@@ -11,8 +11,8 @@ namespace Infrastructure.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        private readonly OrdersContext _context;
-        public OrderRepository(OrdersContext context)
+        private readonly CPSContext _context;
+        public OrderRepository(CPSContext context)
         {
             _context = context;
         }
@@ -32,9 +32,9 @@ namespace Infrastructure.Repositories
         {
            return _context.Orders.SingleOrDefault(o => o.Id == id);
         }
-        public Order Add(Order order)
+        public Order Add(Order order) // mnot sure
         {
-
+           //  order.ProductId = order.ProductId;
             order.Created = DateTime.UtcNow;
             _context.Orders.Add(order);
             _context.SaveChanges();

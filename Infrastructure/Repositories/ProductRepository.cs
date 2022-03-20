@@ -11,8 +11,8 @@ namespace Infrastructure.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly OrdersContext _context;
-        public ProductRepository(OrdersContext context)
+        private readonly CPSContext _context;
+        public ProductRepository(CPSContext context)
         {
             _context = context;
         }

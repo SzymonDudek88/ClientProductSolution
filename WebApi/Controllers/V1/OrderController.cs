@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
-using Application.Dto;
+﻿using Application.Dto;
 using Application.Interfaces;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
-using Application.Dto.Cosmos;
+using System.Collections.Generic;
+using System.Security.Claims;
+using WebApi.Wrappers;
 
 namespace WebApi.Controllers.V1
 { //added nuget package mvc versioning L9 S3
 
-   // [ApiExplorerSettings(IgnoreApi = true)]
+    // [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
-   [ApiVersion("1.0")]
+    [ApiVersion("1.0")]
+    [Authorize]
     [ApiController]
     public class OrderController : ControllerBase
     {
@@ -26,7 +27,7 @@ namespace WebApi.Controllers.V1
             _productService = productService;
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
 
         public IActionResult Get()
@@ -41,12 +42,12 @@ namespace WebApi.Controllers.V1
                 countOfOrders++;
             }
             string answer = "Ilosc zamowien: " + countOfOrders;
-           // return Ok(orders);
-            return Ok(answer);
+            return Ok(orders);
+           // return Ok(answer);
 
         }
-       
 
+       //  [AllowAnonymous]
         [HttpGet("{idOrder}")]  
         public IActionResult GetById(int idOrder) //  int idC, int idP
         {
@@ -70,7 +71,8 @@ namespace WebApi.Controllers.V1
 
         }
 
-        [HttpPost( "{clientId}/{productId}/{quantity}")]
+       //  [AllowAnonymous] 
+        [HttpPost("{clientId}/{productId}/{quantity}")]
         public IActionResult CreateNewOrder(string clientId, int productId, int quantity)
         {
             var createOrderDto = new CreateOrderDto();
@@ -97,12 +99,27 @@ namespace WebApi.Controllers.V1
             // get product again  - with new quantity
             product = _productService.GetById(productId);
 
-            var newOrderDto = _orderService.AddNewOrder(createOrderDto); // adding to repository
+            var userNameString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var newOrderDto = _orderService.AddNewOrder(createOrderDto, userNameString);  // security claims // adding to repository
             // and getting ID for use
            
 
             return Created($"api/orders/{newOrderDto.Id} ", $"Client: {client.Result.Name} Ordered: {product.Name} Amount: {newOrderDto.OrderQuantity}  Product amount left: {product.Quantity}"); 
 
+        }
+        [HttpDelete]
+
+        public   IActionResult DeleteOrder(int id)
+        {
+            var isOwner = _orderService.UserOwnOrder(id, User.FindFirstValue(ClaimTypes.NameIdentifier)); // to wartosc id string
+            // przypisana danemu uzytkownikowi na poziomie rejestracji
+            if (!isOwner)
+            {
+                return BadRequest(new Response<bool>() { Success = false, Message = "You Dont own this order so cant delete it" });
+            }
+            _orderService.DeleteOrder(id);
+            return NoContent();
+        
         }
     }
 }

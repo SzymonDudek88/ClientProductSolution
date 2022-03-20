@@ -53,6 +53,8 @@ namespace WebApi
 
             app.UseRouting();
 
+            app.UseAuthentication(); // tu i mvc installers
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

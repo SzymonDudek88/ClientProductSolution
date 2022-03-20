@@ -18,7 +18,8 @@ namespace WebApi
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+                .ConfigureWebHostDefaults(webBuilder => // to nam ustawia mozliwosci ktore wykorzystamy juz w Startup ponizej
+                // jak np DI dla jakichs dzia³añ i s¹ one tylko 3 Iconfiguration...
                 {
                     webBuilder.UseStartup<Startup>();
                 });

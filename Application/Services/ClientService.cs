@@ -19,7 +19,7 @@
 //            _mapper = mapper;
 //        }
 
-   
+
 
 //        public IEnumerable<ClientDto> GetAll()
 //        {
@@ -29,19 +29,19 @@
 
 //        public ClientDto GetById(int id)
 //        {
-//             var client = _clientRepository.GetById(id);
-//            return  _mapper.Map<ClientDto>(client);
-            
-            
+//            var client = _clientRepository.GetById(id);
+//            return _mapper.Map<ClientDto>(client);
+
+
 //        }
 //        public ClientDto AddNewClient(CreateClientDto newClient)
 //        {
 //            if (string.IsNullOrEmpty(newClient.Name))
 //            {
-//                throw new Exception("Client can not have empty name"); 
+//                throw new Exception("Client can not have empty name");
 //            }
 //            /// ----- bo tutaj chcesz dodac nowego clienta do bazy danych
-//            var client =  _mapper.Map<Client>(newClient);
+//            var client = _mapper.Map<Client>(newClient);
 //            _clientRepository.Add(client);
 //            ///// -------------
 //            //a tu dopiero go mapujesz żeby go używać. 
@@ -49,7 +49,7 @@
 //            // nadaje mu ID 
 //        }
 
-//        public void UpdateClient (UpdateClientDto updateClient)
+//        public void UpdateClient(UpdateClientDto updateClient)
 //        {
 //            // pobierasz istniejacy client  - mapujesz z update ktory wszedl na nowy product z istniejacego
 //            // wykonujesz metode update
@@ -66,7 +66,7 @@
 //        public void DeleteClient(int id)
 //        {
 //            var clientToDelete = _clientRepository.GetById(id);
-            
+
 //            _clientRepository.Delete(clientToDelete);
 //        }
 

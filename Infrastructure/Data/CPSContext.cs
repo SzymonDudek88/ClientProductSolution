@@ -1,5 +1,7 @@
 ﻿using Domain.Common;
 using Domain.Entities;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
-    public class OrdersContext : DbContext // entity framework L2 S4 
+    public class CPSContext : IdentityDbContext <ApplicationUser> // zmieniono L5 rejestracja uzytkownika DbContext // entity framework L2 S4 
                                             // nuget MS entity framework core
                                             // MS EFC sql server
                                             //MS EFC Tools
                                             //MS EFC design here and instal it  to web api too
     {
-        public OrdersContext(  DbContextOptions options) : base(options)
+        public CPSContext(  DbContextOptions<CPSContext> options) : base(options)  // tu dodane dla identity ! 
         {
         }
 
