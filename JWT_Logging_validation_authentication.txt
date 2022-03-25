@@ -80,5 +80,31 @@ utf84
   allow anynamous - pod akcja ponad typem operacji w controllerze 
 
   od 3 min dodajemy autora danej tresci
+  
+... ni wiem tu caly motyw z porownaniem username string aby weryfikowac wlasciciela tresci
+
+
+
+  userresolverService - aby dodac lastmodifiedBY i createdBY
+  - service w mvc installer
+
+  ---- USER ROLES L8
+
+  new class - infrastructure - identity folder - User Roles
+  const string fields 
+
+  identityController - nowe pole private -   private readonly RoleManager <IdentityRole> _roleManager;
+
+  (rejestracja:)
+   if (!await _roleManager.RoleExistsAsync(UserRoles.User))
+            { 
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User)); //  Microsoft.AspNetCore.Identity
+            }
+            //dodajemy role user do uzytkownika 
+            await _userManager.AddToRoleAsync(user, UserRoles.User);
+            ///----- endroles
+
+(login:)
+
 
 

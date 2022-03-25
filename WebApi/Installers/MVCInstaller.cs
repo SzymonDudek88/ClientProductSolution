@@ -50,6 +50,9 @@ namespace WebApi.Installers
             });
 
             services.AddAuthentication(); // tu i w startup
+            services.AddAuthorization();
+
+            services.AddTransient<UserResolverService>();
         }
     }
 }

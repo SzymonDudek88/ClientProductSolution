@@ -20,6 +20,18 @@ namespace Application.Dto
         {
             profile.CreateMap<CreateOrderDto, Order>();
         }
+        public CreateOrderDto()
+        {
+
+
+        }
+        public CreateOrderDto(int productId, string clientId, int quantity)
+        {
+            ProductId = productId;
+            ClientId = clientId;
+            OrderQuantity = quantity;
+
+        }
         
     }
 }

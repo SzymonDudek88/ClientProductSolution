@@ -1,4 +1,5 @@
-﻿using Domain.Common;
+﻿using Application.Services;
+using Domain.Common;
 using Domain.Entities;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -17,8 +18,10 @@ namespace Infrastructure.Data
                                             //MS EFC Tools
                                             //MS EFC design here and instal it  to web api too
     {
-        public CPSContext(  DbContextOptions<CPSContext> options) : base(options)  // tu dodane dla identity ! 
+        private readonly UserResolverService _userService ; // need it to return user name
+        public CPSContext(  DbContextOptions<CPSContext> options, UserResolverService userService) : base(options)  // tu dodane dla identity ! 
         {
+            _userService = userService;
         }
 
         public DbSet<Order> Orders { get; set; } // co mapujemy na tabele i bazy danych 
@@ -41,10 +44,13 @@ namespace Infrastructure.Data
             foreach (var entityEntry in entries)
             {
                 ((AuditibleEntity)entityEntry.Entity).LastModified = DateTime.UtcNow;
+                ((AuditibleEntity)entityEntry.Entity).LastModifiedBy = _userService.GetUser(); 
 
                 if (entityEntry.State == EntityState.Added)
                 {
                     ((AuditibleEntity)entityEntry.Entity).Created = DateTime.UtcNow;
+                    ((AuditibleEntity)entityEntry.Entity).CreatedBy = _userService.GetUser();
+
                 }
 
             }

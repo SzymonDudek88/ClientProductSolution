@@ -20,17 +20,19 @@ namespace WebApi.Controllers.V1
     [ApiController]
     public class IdentityController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration; 
+        private readonly RoleManager<IdentityRole> _roleManager;  // namespace Microsoft.AspNetCore.Identity
         private readonly UserManager<ApplicationUser> _userManager;
-        public IdentityController(UserManager<ApplicationUser> userManager, IConfiguration configuration) //Iconfiguration pozwala pobierac dane z appsetiings JSON
+        public IdentityController(UserManager<ApplicationUser> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager) //Iconfiguration pozwala pobierac dane z appsetiings JSON
         {
             _configuration = configuration;
+            _roleManager = roleManager;
             _userManager = userManager;     
         }
 
         [HttpPost]
-        [Route("Register")]
-        public async Task<IActionResult> Register(RegisterModel register)
+        [Route("RegisterUser")]
+        public async Task<IActionResult> RegisterUser(RegisterModel register)
         { 
         var userExist = await _userManager.FindByNameAsync(register.UserName);
             if (userExist != null)
@@ -63,15 +65,81 @@ namespace WebApi.Controllers.V1
 
                 });
             }
+            //////// ---- roles   Microsoft.AspNetCore.Identity
+            ///// domyslna rolas to user - podczas rejestracji powiazujemy uzytkownika z ta rola
+            /// najpierw sprawdzamy czy taka rola istnieje // jezeli nie istnieje to dodajemy role user
+            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
+            { 
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User)); //  Microsoft.AspNetCore.Identity
+            }
+            //dodajemy role user do uzytkownika 
+            await _userManager.AddToRoleAsync(user, UserRoles.User); // to wszystko odpowiada za przypisanie roli do bazy danych
+            ///----- endroles
+
+
             // jezeli udalo sie dodac - 200 ok
 
             return Ok(new Response<bool>
             { 
             Success = true,
-            Message = "User created"
+            Message = "User created: "  
             });
         }
+        [HttpPost]
+        [Route("RegisterAdmin")]
+        public async Task<IActionResult> RegisterAdmin(RegisterModel register)
+        {
+            var userExist = await _userManager.FindByNameAsync(register.UserName);
+            if (userExist != null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response<bool>
+                {
+                    Success = false,
+                    Message = "User already exists"
 
+
+                });
+
+                // jezeli nie istnieje...
+            }
+
+            ApplicationUser user = new ApplicationUser()
+            {
+                Email = register.Email, // user name, security stamp i Id zawarte w dziedziczeniu klasy Appuser 
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = register.UserName
+            };
+            var result = await _userManager.CreateAsync(user, register.Password);
+            if (!result.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response<bool>
+                {
+                    Success = false,
+                    Message = "User creation failed, check user details",
+                    Errors = result.Errors.Select(x => x.Description)
+
+                });
+            }
+            //////// ---- roles   Microsoft.AspNetCore.Identity
+            ///// domyslna rolas to user - podczas rejestracji powiazujemy uzytkownika z ta rola
+            /// najpierw sprawdzamy czy taka rola istnieje // jezeli nie istnieje to dodajemy role user
+            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin)); //  Microsoft.AspNetCore.Identity
+            }
+            //dodajemy role user do uzytkownika 
+            await _userManager.AddToRoleAsync(user, UserRoles.Admin); // to wszystko odpowiada za przypisanie roli do bazy danych
+            ///----- endroles
+
+
+            // jezeli udalo sie dodac - 200 ok
+
+            return Ok(new Response<bool>
+            {
+                Success = true,
+                Message = "User created: "
+            });
+        }
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
@@ -87,6 +155,22 @@ namespace WebApi.Controllers.V1
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
+
+
+                // ROLES
+                var userRoles = await _userManager.GetRolesAsync(user);
+
+                foreach (var userRole in userRoles)
+                {
+                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                }
+
+
+                //ROLES END
+
+
+
+
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
                 var token = new JwtSecurityToken(
@@ -94,11 +178,16 @@ namespace WebApi.Controllers.V1
                     claims: authClaims, // oswiadczenia 
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256) 
                     );
+
+              
+
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
-                } );
+                    expiration = token.ValidTo,
+                    
+
+            } );
                  
             }
             

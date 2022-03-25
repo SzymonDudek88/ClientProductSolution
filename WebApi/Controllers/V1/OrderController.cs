@@ -1,7 +1,9 @@
 ﻿using Application.Dto;
 using Application.Interfaces;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Security.Claims;
 using WebApi.Wrappers;
@@ -27,9 +29,11 @@ namespace WebApi.Controllers.V1
             _productService = productService;
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-
+        [SwaggerOperation(Summary = "Get all orders")]
+        //[AllowAnonymous]
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpGet("[action]")]
+       
         public IActionResult Get()
         {
             var orders = _orderService.GetAll();
@@ -47,11 +51,17 @@ namespace WebApi.Controllers.V1
 
         }
 
-       //  [AllowAnonymous]
+        //  [AllowAnonymous]
+        [Authorize(Roles = UserRoles.User)]
+
         [HttpGet("{idOrder}")]  
         public IActionResult GetById(int idOrder) //  int idC, int idP
         {
             var order = _orderService.GetById(idOrder);
+            // check if order is not null
+
+        if (order == null)
+                return NotFound();
 
             var client = _clientService.GetByIdAsync( order.ClientId.ToString() );
            var product = _productService.GetById( order.ProductId );
@@ -71,21 +81,22 @@ namespace WebApi.Controllers.V1
 
         }
 
-       //  [AllowAnonymous] 
+        //  [AllowAnonymous] 
+        [Authorize(Roles = UserRoles.User)]
+
         [HttpPost("{clientId}/{productId}/{quantity}")]
         public IActionResult CreateNewOrder(string clientId, int productId, int quantity)
         {
-            var createOrderDto = new CreateOrderDto();
-            createOrderDto.ClientId = clientId;
-            createOrderDto.ProductId = productId;
-            createOrderDto.OrderQuantity = quantity;
+            if ((string.IsNullOrWhiteSpace(clientId)) || (string.IsNullOrWhiteSpace(productId.ToString())) || (string.IsNullOrWhiteSpace(quantity.ToString())))
+                return BadRequest(new Response<bool>() { Success = false, Message = "Retrieved empty field" });
+
 
             var client = _clientService.GetByIdAsync(clientId.ToString());
             var product = _productService.GetById(productId);
 
             // check if client prouct exist
-            if (client == null && product == null) return NotFound("Client and product do not exist");
-            if (client == null ) return NotFound("Client does not exist ");
+            if (client.Result == null && product == null) return NotFound("Client and product do not exist");
+            if (client.Result == null ) return NotFound("Client does not exist ");
             if ( product == null) return NotFound("Product does not exist ");
 
             // check if quantity of existing product is enaught to cover the order 
@@ -93,13 +104,16 @@ namespace WebApi.Controllers.V1
 
             if (quantity > product.Quantity) return BadRequest("The quantity of the order cannot be covered by magazine suplies");
 
+            var createOrderDto = new CreateOrderDto(productId, clientId, quantity);
+           
             //if possible - change quantity of product
-             _productService.UpdateProductQuantity(product.Id, quantity);
+            _productService.UpdateProductQuantity(product.Id, quantity);
 
             // get product again  - with new quantity
             product = _productService.GetById(productId);
 
-            var userNameString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            // sprawdza zalogowanego uzytkownika i jego string id
+            var userNameString = User.FindFirstValue(ClaimTypes.NameIdentifier); // sprawdza nazwe obecnego usera
             var newOrderDto = _orderService.AddNewOrder(createOrderDto, userNameString);  // security claims // adding to repository
             // and getting ID for use
            
@@ -107,13 +121,17 @@ namespace WebApi.Controllers.V1
             return Created($"api/orders/{newOrderDto.Id} ", $"Client: {client.Result.Name} Ordered: {product.Name} Amount: {newOrderDto.OrderQuantity}  Product amount left: {product.Quantity}"); 
 
         }
-        [HttpDelete]
 
-        public   IActionResult DeleteOrder(int id)
+        [HttpDelete]
+        [Authorize(Roles = UserRoles.AdminOrUser)]
+
+        public IActionResult DeleteOrder(int id)
         {
             var isOwner = _orderService.UserOwnOrder(id, User.FindFirstValue(ClaimTypes.NameIdentifier)); // to wartosc id string
             // przypisana danemu uzytkownikowi na poziomie rejestracji
-            if (!isOwner)
+            var isAdmin = User.FindFirstValue(ClaimTypes.Role).Contains(UserRoles.Admin);
+
+            if (!isAdmin && !isOwner)
             {
                 return BadRequest(new Response<bool>() { Success = false, Message = "You Dont own this order so cant delete it" });
             }
