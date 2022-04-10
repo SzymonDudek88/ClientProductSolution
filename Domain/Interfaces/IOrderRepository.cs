@@ -13,9 +13,7 @@ namespace Domain.Interfaces
 
         Order GetById(int id);
 
-        Order Add(Order order); // bo create nie ma id - id se nadamy
-
-        //  void UpdateClient(UpdateOrderDto updateOrder);
+        Order Add(Order order);  
         void Delete(Order order);
     }
 }

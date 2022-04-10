@@ -15,11 +15,11 @@ namespace WebApi.Installers
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration) //L7
         {
-
+            #region
             // everything transfered here L7 - Dependency injection and services registration
             //Dependency Injection klas obłsugiwanych: Client
-          // services.AddScoped<IClientRepository, ClientRepository>();// transfered to Infrastructure DI
-           //  services.AddScoped<IClientService, ClientService>(); // transfered to DI in application 
+            // services.AddScoped<IClientRepository, ClientRepository>();// transfered to Infrastructure DI
+            //  services.AddScoped<IClientService, ClientService>(); // transfered to DI in application 
 
             // Product
             //   services.AddScoped<IProductRepository, ProductRepository>();// transfered to Infrastructure DI
@@ -31,6 +31,7 @@ namespace WebApi.Installers
 
             //DI auto mapper:
             //  services.AddSingleton(AutoMapperConfig.Initialize()); // transfered to Application DI
+            #endregion
 
             services.AddApplication();
             services.AddInfrastructure();

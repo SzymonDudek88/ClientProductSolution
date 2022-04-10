@@ -11,17 +11,12 @@ using System.Threading.Tasks;
 
 namespace Application //serwisy tej warstwy 
 {
-    public static class DependencyInjection      //L7Section3 // created to simplyfiy and order structure of api
+    public static class DependencyInjection       
     {
-        //added nuget package  DI abstrsctions
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            // L8 S3 + biblioteka automapper extension microsoft dependency injection 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            //TRANSFERED FROM WEB API layer
-
-            //client
           //  services.AddScoped<IClientService, ClientService>(); // transfered to DI in application 
             //client cosmos
             services.AddScoped<ICosmosClientService, CosmosClientService>();

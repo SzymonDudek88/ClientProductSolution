@@ -7,7 +7,7 @@ namespace WebApi.Wrappers
         public T Data { get; set; }
         public bool Success { get; set; }
 
-        public string Message  { get; set; }  // got problems here missing property
+        public string Message  { get; set; }   
 
         public IEnumerable<string> Errors { get; set; }
         public Response()

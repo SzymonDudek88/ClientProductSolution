@@ -34,7 +34,7 @@ namespace Infrastructure.Repositories
             return product;
         }
          
-        public void Update(Product product)  // id is theproblem cannot use id to update this entity
+        public void Update(Product product)   
         {
             _context.Products.Update(product);
             _context.SaveChanges();
@@ -50,13 +50,6 @@ namespace Infrastructure.Repositories
            var count = await  _context.Products.CountAsync();
             return   count;
         }
-
-        //public void UpdateProductQuantity(int id, int quantity)  // no need to use that, quantity is changed in
-        // service class via update method
-        //{
-        //    
-
-        //    
-        //}
+ 
     }
 }

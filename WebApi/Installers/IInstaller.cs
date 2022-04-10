@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace WebApi.Installers
 {
-    public interface IInstaller //L7
+    public interface IInstaller  
     {
         void InstallServices(IServiceCollection services, IConfiguration configuration)
         {

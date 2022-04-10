@@ -34,10 +34,13 @@ namespace Application.Mappings
                 var methodInfo = type.GetMethod("Mapping");
                 methodInfo?.Invoke(instance, new object[] { this });
             }
-
-            // w sumie to jest dobre bo tylko jak tworzysz nowy typ DTO to w nim wpisujesz schemastycznie
-            // to co jesdt potrzebne i masz ustawione a nie szukasz po projekcie gdzie musisz cos zmienic
-            // zseby dzialalo
+            #region
+            ////*
+            //// w sumie to jest dobre bo tylko jak tworzysz nowy typ DTO to w nim wpisujesz schemastycznie
+            //// to co jesdt potrzebne i masz ustawione a nie szukasz po projekcie gdzie musisz cos zmienic
+            //// zseby dzialalo
+            // //
+            #endregion
         }
     }
 }

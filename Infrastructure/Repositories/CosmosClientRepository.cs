@@ -41,7 +41,7 @@ namespace Infrastructure.Repositories
         }
         public async Task Update(CosmosClient client)
         {
-           await _cosmosStore.UpdateAsync(client); // "z interfejsu"
+           await _cosmosStore.UpdateAsync(client);  
         }
 
         public async Task Delete(CosmosClient client)
@@ -51,7 +51,7 @@ namespace Infrastructure.Repositories
 
         public async Task DeleteAllClients()
         {
-            await _cosmosStore.RemoveRangeAsync(_cosmosStore.Query().ToList() );  // brdzo ciekaw jstm
+            await _cosmosStore.RemoveRangeAsync(_cosmosStore.Query().ToList() );   
         } 
        
     }

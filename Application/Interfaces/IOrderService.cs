@@ -13,7 +13,7 @@ namespace Application.Interfaces
 
         OrderDto GetById(int id);
 
-        OrderDto AddNewOrder(CreateOrderDto createOrderDto, string userId); // bo create nie ma id - id se nadamy
+        OrderDto AddNewOrder(CreateOrderDto createOrderDto, string userId); //  
 
       //  void UpdateClient(UpdateOrderDto updateOrder);
         void DeleteOrder(int id);

@@ -44,25 +44,17 @@ namespace WebApi.Controllers
             if (product == null) return NotFound();
             return Ok(new Response<ProductDto> (product));
         }
-
-        //[HttpGet("Id")]
-        //public IActionResult GetQuantityById(int id)
-        //{
-        //    var product = _productsService.GetById(id);
-        //     var quantity = _productsService.GetQuantity(id);
-
-        //    return Ok(product);
-        //}
+         
 
         [HttpPost]
         public IActionResult CreateNewProduct(CreateProductDto newProduct)
         { 
 
-         var product =  _productsService.AddNewProduct(newProduct); // bo dopiero teraz on dostał id
+         var product =  _productsService.AddNewProduct(newProduct); 
        
            // return Ok(product);
 
-            return Created($"api/posts/{product.Id}", new Response<ProductDto>( product)); // widac nie chcesz pokazac jego id bo w sumie po co to po masz dto
+            return Created($"api/posts/{product.Id}", new Response<ProductDto>( product));  
 
         }
 
@@ -90,18 +82,12 @@ namespace WebApi.Controllers
         [HttpPut("{id}/{quantity}")]//"{id}/{quantity}"
         public IActionResult UpdateQuantity(int id, int quantity)
         {
-            //var updateQproduct = new UpdateProductQuantityDto();
-            //updateQproduct.Quantity = quantity;
-            //updateQproduct.Id = id;
+             
 
             _productsService.UpdateProductQuantity(id, quantity);
             return NoContent( ); 
 
         }
-        //SwaggerGeneratorException: Conflicting method/path combination "PUT api/Products" for actions
-        //- WebApi.Controllers.ProductsController.Update (WebApi),WebApi.Controllers.ProductsController.UpdateQuantity
-        //(WebApi).
-        //Actions require a unique method/path combination for Swagger/OpenAPI 3.0.
-        //Use ConflictingActionsResolver as a workaround
+        
     }
 }

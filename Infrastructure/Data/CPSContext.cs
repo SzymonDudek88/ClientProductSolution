@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
-    public class CPSContext : IdentityDbContext <ApplicationUser> // zmieniono L5 rejestracja uzytkownika DbContext // entity framework L2 S4 
+    public class CPSContext : IdentityDbContext <ApplicationUser>  
                                             // nuget MS entity framework core
                                             // MS EFC sql server
                                             //MS EFC Tools

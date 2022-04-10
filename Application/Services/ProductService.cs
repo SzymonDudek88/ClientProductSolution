@@ -28,7 +28,7 @@ namespace Application.Services
         {
             var products = await _productsRepository.GetAllAsync( pageNumber,  pageSize); // pobierasz jako typ Product
             return _mapper.Map<IEnumerable<ProductDto>>(products); // zamieniasz na dto i wracasz 
-            // i tego jeszcze nie dotyczy automapper config...
+           
         }
 
         public ProductDto GetById(int id)
@@ -36,19 +36,13 @@ namespace Application.Services
             var product = _productsRepository.GetById(id);
             return _mapper.Map<ProductDto>(product);
         }
-
-        //public int GetQuantity(int id)
-        //{
-        //    var product = _productsRepository.GetById(id);
-        //    var mapped = _mapper.Map<ProductDto>(product);
-        //    return mapped.Quantity;
-        //}
+ 
 
         public ProductDto AddNewProduct(CreateProductDto newProduct)
         {
             // dostajesz newProduct o parametrach Name, Price
             // check if strings are empty
-            if (newProduct.Name == null || newProduct.Price == null) // price jest int?
+            if (newProduct.Name == null || newProduct.Price == null) //  
             {
                 throw (new Exception("Name or price field can not be empty"));
             }
@@ -63,7 +57,7 @@ namespace Application.Services
             
         }
 
-        public void UpdateProduct(UpdateProductDto updateProduct)// to wchodzi z controllera 
+        public void UpdateProduct(UpdateProductDto updateProduct) 
         {
            
             var existingProduct = _productsRepository.GetById(updateProduct.Id); // PRODUCT
@@ -71,7 +65,7 @@ namespace Application.Services
             var product = _mapper.Map ( updateProduct, existingProduct);  //PRODUCT = updateproductdto -> product
             
             _productsRepository.Update(product);
-             // nic nie zwracasz bo tylko update gmoniu
+            
         }
 
         public void DeleteProduct(int id)
@@ -83,20 +77,10 @@ namespace Application.Services
 
         public void UpdateProductQuantity(int id, int quantity)
         {
-
-            ///
-            //var updateQProduct = new UpdateProductQuantityDto();
-            //updateQProduct.Quantity = quantity;
-            //updateQProduct.Id = id;
-
-            ///
+ 
             var existingProduct = _productsRepository.GetById(id); // PRODUCT
 
-            existingProduct.Quantity -= quantity;
-
-           // var product = _mapper.Map(updateQProduct, existingProduct);
-
-
+            existingProduct.Quantity -= quantity; 
 
             _productsRepository.Update(existingProduct);  // send to repository
 

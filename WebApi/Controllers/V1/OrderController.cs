@@ -9,7 +9,7 @@ using System.Security.Claims;
 using WebApi.Wrappers;
 
 namespace WebApi.Controllers.V1
-{ //added nuget package mvc versioning L9 S3
+{  
 
     // [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
@@ -55,7 +55,7 @@ namespace WebApi.Controllers.V1
         [Authorize(Roles = UserRoles.User)]
 
         [HttpGet("{idOrder}")]  
-        public IActionResult GetById(int idOrder) //  int idC, int idP
+        public IActionResult GetById(int idOrder) //   
         {
             var order = _orderService.GetById(idOrder);
             // check if order is not null

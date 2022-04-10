@@ -14,7 +14,7 @@
 
 //        ClientDto GetById(int id);
 
-//        ClientDto AddNewClient(CreateClientDto newClient); // bo create nie ma id - id se nadamy
+//        ClientDto AddNewClient(CreateClientDto newClient); // 
 
 //        void UpdateClient(UpdateClientDto updateClient);
 //        void DeleteClient(int id);

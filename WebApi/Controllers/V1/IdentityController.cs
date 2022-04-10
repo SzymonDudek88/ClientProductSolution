@@ -44,8 +44,7 @@ namespace WebApi.Controllers.V1
                 
                 
                 });
-
-                // jezeli nie istnieje...
+ 
             }
 
             ApplicationUser user = new ApplicationUser()
@@ -98,9 +97,7 @@ namespace WebApi.Controllers.V1
                     Message = "User already exists"
 
 
-                });
-
-                // jezeli nie istnieje...
+                }); 
             }
 
             ApplicationUser user = new ApplicationUser()
@@ -151,7 +148,7 @@ namespace WebApi.Controllers.V1
                 // if passed genereting token 
                 var authClaims = new List<Claim>
                 {
-                new Claim(ClaimTypes.NameIdentifier, user.Id)  ,  // to lekcja 7 - odnoscie identyfikastora uzytkownika 
+                new Claim(ClaimTypes.NameIdentifier, user.Id)  ,   
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
@@ -168,9 +165,6 @@ namespace WebApi.Controllers.V1
 
                 //ROLES END
 
-
-
-
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
                 var token = new JwtSecurityToken(
@@ -178,8 +172,6 @@ namespace WebApi.Controllers.V1
                     claims: authClaims, // oswiadczenia 
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256) 
                     );
-
-              
 
                 return Ok(new
                 {

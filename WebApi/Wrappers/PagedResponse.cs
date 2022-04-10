@@ -14,7 +14,7 @@
             PageNumber = pageNumber;
             PageSize = pageSize;
             Data = data;
-            Success = true; //  dziedziczy
+            Success = true; 
         }
     }
 }

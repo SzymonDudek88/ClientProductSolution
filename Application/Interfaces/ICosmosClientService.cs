@@ -15,7 +15,7 @@ namespace Application.Interfaces
 
         Task<CosmosClientDto> GetByIdAsync(string id);
 
-        Task<CosmosClientDto> AddNewClientAsync(CreateCosmosClientDto newClient); // bo create nie ma id - id se nadamy
+        Task<CosmosClientDto> AddNewClientAsync(CreateCosmosClientDto newClient);  
 
         Task UpdateClientAsync(UpdateCosmosClientDto updateClient);
         Task DeleteClientAsync(string id);
