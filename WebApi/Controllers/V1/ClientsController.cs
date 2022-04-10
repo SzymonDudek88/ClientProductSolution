@@ -29,8 +29,8 @@ namespace WebApi.Controllers.V1
 
         }
 
+        [SwaggerOperation(Summary = "Get Client by id")]
         [HttpGet("{id}")]
-
         public async Task< IActionResult > GetById(string id)
         {
             var client = await _clientService.GetByIdAsync(id);
@@ -38,10 +38,10 @@ namespace WebApi.Controllers.V1
             return Ok(client);
 
         }
-       
 
 
-    [HttpPost] 
+        [SwaggerOperation(Summary = "Create new Client")]
+        [HttpPost] 
         public async Task<IActionResult> CreateNewClient(CreateCosmosClientDto newClient)
         {
             var client = await _clientService.AddNewClientAsync(newClient);
@@ -50,7 +50,7 @@ namespace WebApi.Controllers.V1
 
         }
 
-
+        [SwaggerOperation(Summary = "Update existing Client")]
         [HttpPut]
         public async Task< IActionResult> UpdateClient(UpdateCosmosClientDto clientUpdated)
         {
@@ -59,7 +59,7 @@ namespace WebApi.Controllers.V1
 
 
         }
-
+        [SwaggerOperation(Summary = "Delete Client by id")]
         [HttpDelete("{id}")]
         public async Task < IActionResult > DeleteClient(string id)
         {
@@ -75,7 +75,7 @@ namespace WebApi.Controllers.V1
             return NoContent();
         
         }
-        [SwaggerOperation(Summary = "Delete all clients  ")]
+        [SwaggerOperation(Summary = "Delete all Clients")]
         [HttpDelete()]
         public async Task < IActionResult > DeleteAllClients()
         {

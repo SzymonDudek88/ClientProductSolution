@@ -29,7 +29,7 @@ namespace WebApi.Controllers.V1
             _productService = productService;
         }
 
-        [SwaggerOperation(Summary = "Get all orders")]
+        [SwaggerOperation(Summary = "Get all Orders")]
         //[AllowAnonymous]
         [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("[action]")]
@@ -52,8 +52,9 @@ namespace WebApi.Controllers.V1
         }
 
         //  [AllowAnonymous]
-        [Authorize(Roles = UserRoles.User)]
 
+        [SwaggerOperation(Summary = "Get Order by id")]
+        [Authorize(Roles = UserRoles.User)] 
         [HttpGet("{idOrder}")]  
         public IActionResult GetById(int idOrder) //   
         {
@@ -82,8 +83,10 @@ namespace WebApi.Controllers.V1
         }
 
         //  [AllowAnonymous] 
-        [Authorize(Roles = UserRoles.User)]
 
+
+        [SwaggerOperation(Summary = "Create new Order")]
+        [Authorize(Roles = UserRoles.User)]
         [HttpPost("{clientId}/{productId}/{quantity}")]
         public IActionResult CreateNewOrder(string clientId, int productId, int quantity)
         {
@@ -122,6 +125,7 @@ namespace WebApi.Controllers.V1
 
         }
 
+        [SwaggerOperation(Summary = "Delete Order by id")]
         [HttpDelete]
         [Authorize(Roles = UserRoles.AdminOrUser)]
 

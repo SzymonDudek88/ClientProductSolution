@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -30,6 +31,7 @@ namespace WebApi.Controllers.V1
             _userManager = userManager;     
         }
 
+        [SwaggerOperation(Summary = "Register User")]
         [HttpPost]
         [Route("RegisterUser")]
         public async Task<IActionResult> RegisterUser(RegisterModel register)
@@ -84,6 +86,8 @@ namespace WebApi.Controllers.V1
             Message = "User created: "  
             });
         }
+
+        [SwaggerOperation(Summary = "Register Admin account")]
         [HttpPost]
         [Route("RegisterAdmin")]
         public async Task<IActionResult> RegisterAdmin(RegisterModel register)
@@ -99,7 +103,6 @@ namespace WebApi.Controllers.V1
 
                 }); 
             }
-
             ApplicationUser user = new ApplicationUser()
             {
                 Email = register.Email, // user name, security stamp i Id zawarte w dziedziczeniu klasy Appuser 
@@ -127,8 +130,6 @@ namespace WebApi.Controllers.V1
             //dodajemy role user do uzytkownika 
             await _userManager.AddToRoleAsync(user, UserRoles.Admin); // to wszystko odpowiada za przypisanie roli do bazy danych
             ///----- endroles
-
-
             // jezeli udalo sie dodac - 200 ok
 
             return Ok(new Response<bool>
@@ -137,6 +138,8 @@ namespace WebApi.Controllers.V1
                 Message = "User created: "
             });
         }
+
+        [SwaggerOperation(Summary = "Log in")] 
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login(LoginModel loginModel)

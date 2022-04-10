@@ -2,6 +2,7 @@
 using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace WebApi.Controllers
         {
             _productsService = products;
         }
-
+        [SwaggerOperation(Summary = "Retrivies all Products")]
         [HttpGet]  //                               from querry - zostanie pobrana z ciagu zapytania 
         public async Task <IActionResult> GetAllAsync([FromQuery]PaginationFilter filter) //pagination filter - tylko filtruje dane
         {
@@ -34,8 +35,8 @@ namespace WebApi.Controllers
             
             return Ok(  PaginationHelper.CreatePagedResponse(products, validPaginationFilter,totalRecords)); //pagination int pageNumber, int pageSize
         }
-     
 
+        [SwaggerOperation(Summary = "Get Product by id")]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         { 
@@ -44,8 +45,8 @@ namespace WebApi.Controllers
             if (product == null) return NotFound();
             return Ok(new Response<ProductDto> (product));
         }
-         
 
+        [SwaggerOperation(Summary = "Create new Product")]
         [HttpPost]
         public IActionResult CreateNewProduct(CreateProductDto newProduct)
         { 
@@ -58,6 +59,7 @@ namespace WebApi.Controllers
 
         }
 
+        [SwaggerOperation(Summary = "Update Product")]
         [HttpPut]
         public IActionResult Update(UpdateProductDto updateProduct)
         { 
@@ -65,8 +67,8 @@ namespace WebApi.Controllers
          return NoContent();
         
         }
-      
 
+        [SwaggerOperation(Summary = "Delete Product by id")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -79,6 +81,7 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
+        [SwaggerOperation(Summary = "Update quantity of product by id")]
         [HttpPut("{id}/{quantity}")]//"{id}/{quantity}"
         public IActionResult UpdateQuantity(int id, int quantity)
         {
