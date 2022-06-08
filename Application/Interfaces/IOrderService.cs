@@ -14,8 +14,7 @@ namespace Application.Interfaces
         OrderDto GetById(int id);
 
         OrderDto AddNewOrder(CreateOrderDto createOrderDto, string userId); //  
-
-      //  void UpdateClient(UpdateOrderDto updateOrder);
+        // void UpdateClient(UpdateOrderDto updateOrder);
         void DeleteOrder(int id);
 
         bool UserOwnOrder(int orderId, string userId); 

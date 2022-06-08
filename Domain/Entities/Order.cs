@@ -14,15 +14,15 @@ namespace Domain.Entities
         public int ProductId { get; set; }
 
         [Required]
-        public string ClientId { get; set; }
+        public int ClientId { get; set; }
 
         [Required]
         public int OrderQuantity { get; set; }
 
         [Required]
-        [MaxLength(450)]
+        [StringLength(100)]
         public string UserId { get; set; }  // using for check authentication who can menage order
-        public Order( int id , int productId, string clientId, int orderQuantity  )
+        public Order( int id , int productId, int clientId, int orderQuantity  )
         {
             Id = id;
             ProductId = productId;

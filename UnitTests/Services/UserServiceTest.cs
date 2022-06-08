@@ -10,6 +10,7 @@ namespace UnitTests.Services
 {
     public class UserServiceTest
     {
+        //checking methods - easier sort of tests
         [Fact]
         public void is_user_email_confirmed_should_return_true_when_input_is_true()
         {

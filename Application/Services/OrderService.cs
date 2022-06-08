@@ -42,7 +42,7 @@ namespace Application.Services
             }
              
             var order = _mapper.Map<Order>(createOrderDto); // error constructor
-            order.UserId = userId;
+            order.UserId = userId; // tutaj? 
             
             _orderRepository.Add(order);
 
@@ -72,7 +72,6 @@ namespace Application.Services
             return true;
         }
 
-         
-
+       
     }
 }

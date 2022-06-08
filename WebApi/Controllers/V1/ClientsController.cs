@@ -1,21 +1,20 @@
 ﻿using Application.Dto;
-using Application.Dto.Cosmos;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Threading.Tasks;
 
-namespace WebApi.Controllers.V1
-{  
+namespace WebApi.Controllers.V2
+{
+  
     [Route("api/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
     public class ClientsController : ControllerBase
     {
-        private readonly ICosmosClientService _clientService;
+        private readonly IClientService _clientService;
 
-        public ClientsController(ICosmosClientService clientService) // domain ->application - > web api
+        public ClientsController(IClientService clientService) // domain ->application - > web api
         {
             _clientService = clientService;
         }
@@ -24,62 +23,69 @@ namespace WebApi.Controllers.V1
         [HttpGet]
         public IActionResult Get()
         {
-            var clients = _clientService.GetAllAsync();
-            return Ok( clients.Result);
+            var clients = _clientService.GetAll();
+            return Ok(clients);
 
         }
 
-        [SwaggerOperation(Summary = "Get Client by id")]
         [HttpGet("{id}")]
-        public async Task< IActionResult > GetById(string id)
+
+        public IActionResult GetById(int id)
         {
-            var client = await _clientService.GetByIdAsync(id);
+            var client = _clientService.GetById(id);
             if (client == null) return NotFound();
             return Ok(client);
 
         }
+        //// The idea is to generate OData adress to find  smth using this string 
+        ///
+        // [SwaggerOperation(Summary = "Retrivies OData string to find client by name")]
+        // [HttpGet("Search/{city}")] 
+        // public IActionResult GetClientByCity(string city)
+        //  {
+        // return Accepted($"api/Clients/getall/filter=Contains({city})");
+        //  }
 
 
-        [SwaggerOperation(Summary = "Create new Client")]
-        [HttpPost] 
-        public async Task<IActionResult> CreateNewClient(CreateCosmosClientDto newClient)
+        [HttpPost]
+        public IActionResult CreateNewClient(CreateClientDto newClient)
         {
-            var client = await _clientService.AddNewClientAsync(newClient);
+            var client = _clientService.AddNewClient(newClient);
 
             return Created($"api/Clients/{client.Id}", newClient); // jeszcze przesylasz obiekt!
 
         }
 
-        [SwaggerOperation(Summary = "Update existing Client")]
+
         [HttpPut]
-        public async Task< IActionResult> UpdateClient(UpdateCosmosClientDto clientUpdated)
+        public IActionResult UpdateClient(UpdateClientDto clientUpdated)
         {
-            await  _clientService.UpdateClientAsync(clientUpdated);
+            _clientService.UpdateClient(clientUpdated);
             return NoContent();
 
 
         }
-        [SwaggerOperation(Summary = "Delete Client by id")]
+
         [HttpDelete("{id}")]
-        public async Task < IActionResult > DeleteClient(string id)
+        public IActionResult DeleteClient(int id)
         {
-          var isExist =  await _clientService.GetByIdAsync(id);
+            var isExist = _clientService.GetById(id);
 
             if (isExist == null)
             {
                 return NotFound();
             }
 
-           await _clientService.DeleteClientAsync(id);
-             
+            _clientService.DeleteClient(id);
+
             return NoContent();
-        
+
         }
-        [SwaggerOperation(Summary = "Delete all Clients")]
+        [SwaggerOperation(Summary = "Delete all clients  ")]
         [HttpDelete()]
-        public async Task < IActionResult > DeleteAllClients()
+        public IActionResult DeleteAllClients()
         {
-            await _clientService.DeleteAllClientsAsync();
+            _clientService.DeleteAllClients();
 
             return NoContent();
 

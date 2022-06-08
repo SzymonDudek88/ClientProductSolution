@@ -43,7 +43,7 @@ namespace WebApi.Installers
             // versioning
             services.AddApiVersioning(x =>
             {
-                x.DefaultApiVersion = new ApiVersion(1, 0);
+                x.DefaultApiVersion = new ApiVersion(1, 0); // version versioning wersja
                 x.AssumeDefaultVersionWhenUnspecified = true;
                 x.ReportApiVersions = true;
 

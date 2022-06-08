@@ -12,9 +12,9 @@ namespace Infrastructure
          
 
             //client
-          //  services.AddScoped<IClientRepository, ClientRepository>();// transfered to Infrastructure DI
+           services.AddScoped<IClientRepository, ClientRepository>();// transfered to Infrastructure DI
             //cosmos client
-            services.AddScoped<ICosmosClientRepository, CosmosClientRepository>();
+         //   services.AddScoped<ICosmosClientRepository, CosmosClientRepository>();
 
             // Product
             services.AddScoped<IProductRepository, ProductRepository>();// transfered to Infrastructure DI

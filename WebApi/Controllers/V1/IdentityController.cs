@@ -1,4 +1,6 @@
-﻿using Infrastructure.Identity;
+﻿using Application.Dto;
+using Application.Interfaces;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,11 +26,17 @@ namespace WebApi.Controllers.V1
         private readonly IConfiguration _configuration; 
         private readonly RoleManager<IdentityRole> _roleManager;  // namespace Microsoft.AspNetCore.Identity
         private readonly UserManager<ApplicationUser> _userManager;
-        public IdentityController(UserManager<ApplicationUser> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager) //Iconfiguration pozwala pobierac dane z appsetiings JSON
+        private readonly IClientService _clientService;
+        public IdentityController(
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration,
+            RoleManager<IdentityRole> roleManager,
+            IClientService clientService) //Iconfiguration pozwala pobierac dane z appsetiings JSON
         {
             _configuration = configuration;
             _roleManager = roleManager;
-            _userManager = userManager;     
+            _userManager = userManager;  
+            _clientService = clientService;
         }
 
         [SwaggerOperation(Summary = "Register User")]
@@ -45,13 +53,12 @@ namespace WebApi.Controllers.V1
                     Message = "User already exists"
                 
                 
-                });
- 
+                }); 
             }
 
             ApplicationUser user = new ApplicationUser()
             {
-                Email = register.Email, // user name, security stamp i Id zawarte w dziedziczeniu klasy Appuser 
+                Email = register.Email, // user name, security stamp i Id zawarte w  klasie Appuser 
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = register.UserName 
             };
@@ -75,15 +82,26 @@ namespace WebApi.Controllers.V1
             }
             //dodajemy role user do uzytkownika 
             await _userManager.AddToRoleAsync(user, UserRoles.User); // to wszystko odpowiada za przypisanie roli do bazy danych
-            ///----- endroles
+            #region create client based on user account
+            //public IActionResult CreateNewClient(CreateClientDto newClient)
+            //{
+            var clientdto = new CreateClientDto();
+            clientdto.City = register.City;
+            clientdto.Name = register.UserName;
+            
 
+            var client = _clientService.AddNewClient(clientdto);
+            //    var client = _clientService.AddNewClient(newClient);
 
-            // jezeli udalo sie dodac - 200 ok
+            //    return Created($"api/Clients/{client.Id}", newClient); // jeszcze przesylasz obiekt!
+
+            //}
+            #endregion
 
             return Ok(new Response<bool>
             { 
             Success = true,
-            Message = "User created: "  
+            Message = $"User created and registered as new client: {client.Name} from {client.City} "  
             });
         }
 

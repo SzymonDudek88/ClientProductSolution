@@ -17,9 +17,9 @@ namespace Application //serwisy tej warstwy
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-          //  services.AddScoped<IClientService, ClientService>(); // transfered to DI in application 
+            services.AddScoped<IClientService, ClientService>(); // transfered to DI in application 
             //client cosmos
-            services.AddScoped<ICosmosClientService, CosmosClientService>();
+         //   services.AddScoped<ICosmosClientService, CosmosClientService>();
 
             // Product
            services.AddScoped<IProductService, ProductService>();// transfered to DI in application 

@@ -12,7 +12,7 @@ namespace Application.Dto
     {
          
         public int ProductId { get; set; }
-        public string ClientId { get; set; }
+        public int ClientId { get; set; }
 
         public int OrderQuantity { get; set; }
 
@@ -25,7 +25,7 @@ namespace Application.Dto
 
 
         }
-        public CreateOrderDto(int productId, string clientId, int quantity)
+        public CreateOrderDto(int productId, int clientId, int quantity)
         {
             ProductId = productId;
             ClientId = clientId;
